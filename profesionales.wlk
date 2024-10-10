@@ -1,5 +1,5 @@
 class ProfesionalVinculado {
-  const universidad
+	const universidad
 
 	method universidad() = universidad
 

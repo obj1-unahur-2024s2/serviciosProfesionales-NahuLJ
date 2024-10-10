@@ -17,4 +17,7 @@ class Empresa{
 	method profesionalMasBarato() = empleados.min({empleado => empleado.honorariosPorHora()})
 
 	method esDeGenteAcotada() = empleados.all({empleado => empleado.provincias().size() <= 3})
+
+	method puedeSatisfacerA(unSolicitante) = 
+		empleados.any({empleado => unSolicitante.puedeSerAntendidaPor(empleado)})
 }
