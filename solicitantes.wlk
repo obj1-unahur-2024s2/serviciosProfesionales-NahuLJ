@@ -7,12 +7,12 @@ class Persona{
 class Institucion{
   const property universidades 
 
-  method puedeSerAntendidaPor(profesional) = universidades.contains(profesional.universidad())
+  method puedeSerAtendidaPor(profesional) = universidades.contains(profesional.universidad())
 }
 
 class Club {
 	const property provincias
 
-	method puedeSerAntendidaPor(profesional) = 
+	method puedeSerAtendidaPor(profesional) = 
 		provincias.any({provincia => profesional.provincias().contains(provincia)})
 }

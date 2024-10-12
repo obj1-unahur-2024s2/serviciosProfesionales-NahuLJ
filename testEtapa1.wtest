@@ -10,12 +10,12 @@ describe "group of tests for ETAPA 1" {
   const corrientes = new Universidad(provincia = "Corrientes", honorariosPorHora = 4200)
   const hurlingham = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 8800)
 
-  const juana = new ProfesionalVinculado(universidad = rosario)
-  const melina = new ProfesionalAsociado(universidad = corrientes)
+  const juana = new ProfesionalVinculado(universidad = rosario, importe = 10000)
+  const melina = new ProfesionalAsociado(universidad = corrientes, importe = 1000)
   const rocio = new ProfesionalLibre(universidad = hurlingham, honorariosPorHora = 5000, 
-                provincias = ["Santa Fe","Cordoba","Buenos Aires"])
+                provincias = ["Santa Fe","Cordoba","Buenos Aires"], importe = 20000)
   const luciana = new ProfesionalLibre(universidad = rosario, honorariosPorHora = 3200,
-                provincias = ["Santa Fe", "Entre Rios"])
+                provincias = ["Santa Fe", "Entre Rios"], importe = 10000)
 
   const empresaEjemplo = new Empresa (honorariosPorHora = 3500)
 

@@ -1,0 +1,46 @@
+import profesionales.*
+import universidades.*
+import solicitantes.*
+
+describe "group of tests for ETAPA 2" {
+
+  const sanMartin = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 3500)
+  const rosario = new Universidad(provincia = "Rosario", honorariosPorHora = 2800)
+  const corrientes = new Universidad(provincia = "Corrientes", honorariosPorHora = 4200)
+  const hurlingham = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 8800)
+
+  const juana = new ProfesionalVinculado(universidad = rosario, importe = 10000)
+  const melina = new ProfesionalAsociado(universidad = corrientes, importe = 1000)
+  const rocio = new ProfesionalLibre(universidad = hurlingham, honorariosPorHora = 5000, 
+                provincias = ["Santa Fe","Cordoba","Buenos Aires"], importe = 20000)
+  const luciana = new ProfesionalLibre(universidad = rosario, honorariosPorHora = 3200,
+                provincias = ["Santa Fe", "Entre Rios"], importe = 10000)
+
+  const juan = new Persona (provincia = "Buenos Aires")
+  const institucionEjemplo = new Institucion (universidades = [sanMartin, rosario])
+  const clubEjemplo = new Club (provincias = ["Cordoba","Formosa"])
+
+  test "juan no puede ser atendido por luciana" {
+    assert.notThat(juan.puedeSerAtendidaPor(luciana))
+  }
+
+  test "juan puede ser atendido por rocio" {
+    assert.that(juan.puedeSerAtendidaPor(rocio))
+  }
+
+  test "la institucion puede ser atendida por juana" {
+    assert.that(institucionEjemplo.puedeSerAtendidaPor(juana))
+  }
+
+  test "la institucion  no puede ser atendida por melina" {
+    assert.notThat(institucionEjemplo.puedeSerAtendidaPor(melina))
+  }
+
+  test "El club puede ser atendido por rocio" {
+    assert.that(clubEjemplo.puedeSerAtendidaPor(rocio))
+  }
+
+  test "El club no puede ser atendido por luciana" {
+    assert.notThat(clubEjemplo.puedeSerAtendidaPor(luciana))
+  }
+}

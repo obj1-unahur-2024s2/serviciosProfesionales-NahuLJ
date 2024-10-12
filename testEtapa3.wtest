@@ -1,0 +1,46 @@
+import profesionales.*
+import universidades.*
+import asociacion.*
+
+describe "group of tests for ETAPA 3" {
+
+  const sanMartin = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 3500)
+  const rosario = new Universidad(provincia = "Rosario", honorariosPorHora = 2800)
+  const corrientes = new Universidad(provincia = "Corrientes", honorariosPorHora = 4200)
+  const hurlingham = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 8800)
+
+  const juana = new ProfesionalVinculado(universidad = rosario, importe = 10000)
+  const melina = new ProfesionalAsociado(universidad = corrientes, importe = 1000)
+  const rocio = new ProfesionalLibre(universidad = hurlingham, honorariosPorHora = 5000, 
+                provincias = ["Santa Fe","Cordoba","Buenos Aires"], importe = 20000)
+  const luciana = new ProfesionalLibre(universidad = rosario, honorariosPorHora = 3200,
+                provincias = ["Santa Fe", "Entre Rios"], importe = 50000)
+
+  test "juana si cobra el importe termina con 0 ya que le da 5000 a la uni de rosario y se gasta los otros 5000" {
+    juana.cobrarImporte()
+    assert.equals(0, juana.importe())
+    assert.equals(5000, rosario.totalDonaciones())
+  }
+
+  test "melina si cobra el importe, la asociacion pasa a tener 1000 de recaudacion y melina termina con 0" {
+    melina.cobrarImporte()
+    assert.equals(0, melina.importe())
+    assert.equals(1000, asociacion.totalRecaudado())
+  }
+
+  test "rocio si cobra el importe, termina con el mismo dinero, ya que se lo guarda" {
+    rocio.cobrarImporte()
+    assert.equals(20000, rocio.importe())
+  }
+
+  test "luciana si le pasa 5000 a rocio, pasa a tener 45000 y rocio 25000" {
+    luciana.pasarDinero(rocio, 5000)
+    assert.equals(25000, rocio.importe())
+    assert.equals(45000, luciana.importe())
+  }
+
+    test "luciana si le pasa 5000 a si misma, tiene la misma cantidad de dinero" {
+    luciana.pasarDinero(luciana, 5000)
+    assert.equals(50000, luciana.importe())
+  }
+}
