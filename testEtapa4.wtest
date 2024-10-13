@@ -1,0 +1,54 @@
+import profesionales.*
+import universidades.*
+import solicitantes.*
+import asociacion.*
+import empresas.*
+describe "group of tests for ETAPA 4" {
+
+  const sanMartin = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 3500)
+  const rosario = new Universidad(provincia = "Rosario", honorariosPorHora = 2800)
+  const corrientes = new Universidad(provincia = "Corrientes", honorariosPorHora = 4200)
+  const hurlingham = new Universidad(provincia = "Buenos Aires", honorariosPorHora = 8800)
+
+  const juana = new ProfesionalVinculado(universidad = rosario, importe = 10000)
+  const melina = new ProfesionalAsociado(universidad = corrientes, importe = 1000)
+  const rocio = new ProfesionalLibre(universidad = hurlingham, honorariosPorHora = 5000, 
+                provincias = ["Santa Fe","Cordoba","Buenos Aires"], importe = 20000)
+  const luciana = new ProfesionalLibre(universidad = rosario, honorariosPorHora = 3200,
+                provincias = ["Santa Fe", "Entre Rios"], importe = 10000)
+
+  const juan = new Persona (provincia = "Buenos Aires")
+  const institucionEjemplo = new Institucion (universidades = [sanMartin, rosario])
+  const clubEjemplo = new Club (provincias = ["Cordoba","Formosa"])
+
+  const empresaEjemplo = new Empresa (honorariosPorHora = 3500)
+
+    method initialize(){
+    empresaEjemplo.contratar(juana)
+    empresaEjemplo.contratar(melina)
+    empresaEjemplo.contratar(rocio)
+    empresaEjemplo.contratar(luciana)
+  }
+
+  test "Si la empresa le da servicio a juan, rocio es la unica que lo puede atender, y luego juan pasa a ser cliente" {
+    empresaEjemplo.darSevicio(juan)
+    assert.equals([juan], empresaEjemplo.clientes())
+    assert.equals(20000, rocio.importe())
+    assert.equals([rocio], empresaEjemplo.empleadosQuePuedeSatisfacerA(juan))
+  }
+
+  test "si la empresa atiende luego de juan a la institucion, la misma puede ser atendida por juana y luciana, la atiende juana" {
+    empresaEjemplo.darSevicio(juan)
+    empresaEjemplo.darSevicio(institucionEjemplo)
+    assert.equals([juan,institucionEjemplo], empresaEjemplo.clientes())
+    assert.equals(0, juana.importe())
+    assert.equals(5000, juana.universidad().totalDonaciones())
+    assert.equals([juana,luciana], empresaEjemplo.empleadosQuePuedeSatisfacerA(institucionEjemplo))
+  }
+
+  test "para la empresa es poco atractiva luciana ya que melina cobra menos que ella y hay alguien que trabaja tambien es sus provincias" {
+    assert.that(empresaEjemplo.esPocoAtractivo(luciana))
+    assert.that(empresaEjemplo.hayEmpleadosQueTrabajenEnLasProvincias(luciana.provincias()))
+    assert.that(empresaEjemplo.hayAlgunoQueCobreMenosQue(luciana))
+  }
+}
